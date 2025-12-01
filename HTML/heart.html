@@ -33,8 +33,9 @@
         }
       };
       (function() {
-        var b = 0;
-        var c = {"ms", "moz", "webkit", "o"};
+        var b = 0; {
+          var c = ["ms", "moz", "webkit", "o"];
+        }
         for (var a = 0; a < c.length && !window.requestAnimationFrame; ++a) {
           window.requestAnimationFrame = window[c[a] +
         "RequestAnimationFrame"];
