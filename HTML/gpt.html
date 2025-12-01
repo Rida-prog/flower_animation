@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Particles</title>
+  <style>
+    /* Full-viewport canvas */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background-color: #262626;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="pinkboard"></canvas>
+
+  <script>
+    // Resize the canvas to match CSS pixels
+    const canvas = document.getElementById('pinkboard');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    // Demo render: draw a simple heart path so you can confirm it works
+    function drawHeart(x, y, size, color) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(size, size);
+      ctx.beginPath();
+      // Heart shape parametric approximation
+      for (let t = 0; t <= Math.PI * 2; t += 0.02) {
+        const r = 1 - Math.sin(t);
+        const px = r * Math.cos(t);
+        const py = r * Math.sin(t);
+        if (t === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Example animation loop
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawHeart(canvas.width / 2, canvas.height / 2, 20, '#ff4d6d');
+      requestAnimationFrame(loop);
+    }
+    loop();
+  </script>
+</body>
+</html>
